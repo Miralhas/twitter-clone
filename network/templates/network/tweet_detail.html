@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block style %}
+    <!-- <link rel="stylesheet" href="{% static 'accounts/style.css' %}"> -->
+    <link rel="stylesheet" href="{% static 'network/style.css' %}">
+{% endblock style %}
+
+{% block title %} {{tweet.content}} {% endblock title %}
+
+{% block head_script %}
+    <script>
+        const tweetOwnerPK = "{{tweet.user.pk}}"
+        const tweetPK = "{{tweet.pk}}"
+    </script>
+{% endblock head_script %}
+
+{% block content %}
+{% csrf_token %}
+<div class="container sans-serif p-3">
+    <div class="row justify-content-center">
+        <div class="col-md-9 mt-3 p-3">
+            <div class="card p-2">
+                <div class="card-body">
+                    <div class="row pb-3">
+                        <div class="col-3 col-lg-1 col-md-2 align-self-center">
+                            <a href="{{tweet.user.get_absolute_path}}">
+                                <img src="https://i.stack.imgur.com/l60Hf.png" class="img-fluid img-thumbnail">
+                            </a>
+                        </div>
+                        <div class="col p-0">
+                            <h5 class="">@<span class="underline">{{tweet.user.username}}</span></h5>
+                        </div>
+                        {% if user == tweet.user %}
+                            <div class="col pt-2">
+                                <div class="d-flex justify-content-end">
+                                    <div id="editBtnDiv">
+                                        <button class="btn btn-outline-primary btn-sm me-2" id="editBtn" style="border-radius: 0%;">Edit Tweet</button>
+                                    </div>
+                                    <form action="{% url 'network:delete' tweet.pk %}" method="post">
+                                        {% csrf_token %}
+                                        <button class="btn btn-outline-danger btn-sm" id="deleteBtn" style="border-radius: 0%;">Delete Tweet</button>
+                                    </form>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div id="tweetContentDiv">
+                                <p class="card-text ps-1" id="tweetContent">{{tweet.content}}</p>
+                            </div>
+                            <small style="color: grey;">{{tweet.date}}</small>
+                        </div>
+                    </div>
+                    <div class="row p-2">
+                        <div class="d-flex col py-1 px-0 tweet-row tweet-row-top">
+                            <form action="." method="post" class="likeForm" id="{{tweet.pk}}">
+                                {% csrf_token %}
+                                <input type="hidden" name="tweetID" value="{{tweet.pk}}" id="tweetID-{{tweet.pk}}">
+                                <input type="hidden" name="userLiking" value="{{user.pk}}" id="userLiking-{{tweet.pk}}">
+                                {% if not user.is_authenticated  %}
+                                    <a href="{% url 'auth:login' %}" style="position: relative; top: 2px; padding-right: 3px; padding-left: 4px;"><i class="like bi bi-heart"></i></a>
+                                    <span class="likes-count-guest" id="likes-count-{{tweet.pk}}">{{tweet.likes.count}}</span>
+                                {% else %}
+                                    {% if tweet in user.tweets_liked.all %}
+                                        <button class="submit-icon" type="submit" id="btn-{{tweet.pk}}" value="unlike">
+                                            <i class="liked bi bi-heart-fill"></i>
+                                        </button>
+                                    {% else %}
+                                        <button class="submit-icon" type="submit" id="btn-{{tweet.pk}}" value="like">
+                                            <i class="like bi bi-heart"></i>
+                                        </button>
+                                    {% endif %}
+                                    <span class="likes-count" id="likes-count-{{tweet.pk}}">{{tweet.likes.count}}</span>
+                                {% endif %}
+                            </form>
+                            <a class="submit-icon" id="submitIcon">
+                                <i class="comment bi bi-chat"></i>
+                                <span class="comments-count">{{tweet.comments.count}}</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-3 p-2">
+                <div class="card-body">
+                    {% if user.is_authenticated %}
+                        <div class="comment-form" id="comment-section">
+                            <form action="." method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="path" value="{{request.path}}">
+                                <label class="comment-as mb-2" for="{{form.content.id_for_label}}">Comment as <span>{{user.username}}</span></label>
+                                {% render_field form.content rows="5" cols="20" class+="border border-info form-control mb-2" %}
+                                <button class="btn btn-info btn-sm mb-3" style="border-radius: 0%;">Comment <i style="position: relative; top: 1.5px;" class="bi bi-arrow-right"></i></button>
+                                <hr class="hr-style">
+                            </form>
+                        </div>
+                    {% endif %}
+                    <div class="all-comments mt-3">
+                        {% for comment in comments %}
+                            <div class="row">
+                                <div class="col-3 col-lg-1 col-md-2 align-self-center">
+                                    <a href="{{tweet.user.get_absolute_path}}">
+                                        <img src="https://i.stack.imgur.com/l60Hf.png" class="img-fluid img-thumbnail">
+                                    </a>
+                                </div>
+                                <div class="col p-0">
+                                    <small class="" style="font-size: 13px;">@<span class="">{{comment.user.username}}</span></small> <br>
+                                    <span style="font-size: 13px; position: relative; bottom: 5px; opacity: 0.4;">{{comment.date}}</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <p style="opacity: 0.75;">{{comment.content}}</p>
+                            </div>
+                            {% empty %}
+                                <div style="opacity: 0.4;">
+                                    <h5 class="text-center">No Comments Yet.</h5>
+                                    <p class="text-center" style="font-size: 13px;">Be the first to share what you think!</p>
+                                    <div class="d-flex justify-content-center">
+                                        <i class="comment bi bi-chat" style="position: relative; bottom: 13px; font-size: 2rem;"></i>
+                                    </div>
+                                </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block script %}
+    <script>
+        document.querySelector("#submitIcon").addEventListener("click", function() {
+            document.querySelector("#id_content").focus();
+        })
+    </script>
+    <script src="{% static 'script.js' %}"></script>
+    <script src="{% static 'network/script.js' %}"></script>
+    <script src="{% static 'accounts/followFeature.js' %}"></script>
+    <script src="{% static 'accounts/tweetAction.js' %}"></script>
+{% endblock script %}

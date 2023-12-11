@@ -1,0 +1,7 @@
+Metadata-Version: 2.1
+Name: network
+Version: 0.1.0
+License-File: LICENSE
+Requires-Dist: django
+Requires-Dist: django-widget-tweaks
+Requires-Dist: django-extensions

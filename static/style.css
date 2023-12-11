@@ -1,0 +1,112 @@
+:root {
+    --text: #ffffff;
+    --background: #0f172a;
+    --primary: #7dd3fc;
+    --secondary: #2c2c2c;
+    --accent: #0DCAF0;
+    --card-background: #1e293b;
+}
+
+body {
+    background-color: var(--background);
+}
+
+h1, h2, h3, h4, h5, h6, p, ul, ol, small{
+    color: var(--text);
+}
+
+.sans-serif {
+    font-family: -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, 
+    helvetica neue, helvetica, Cantarell, Ubuntu, roboto, noto, arial, sans-serif;
+}
+
+.serif {
+    font-family: Iowan Old Style, Apple Garamond, Baskerville, Times New Roman, 
+    Droid Serif, Times, Source Serif Pro, serif, Apple Color Emoji, Segoe UI Emoji, 
+    Segoe UI Symbol;
+}
+
+.mono {
+    font-family: Menlo, Consolas, Monaco, Liberation Mono, Lucida Console, monospace;
+}
+
+.navbar-nav .nav-link.active, .navbar-nav .nav-link.show {
+    color: var(--text);
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='white' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+.navbar-toggler {
+    border: 2px solid white;
+}
+
+.nav-link {
+    color: white;
+}
+
+.nav-link {
+    position: relative;
+}
+
+.nav-link:hover {
+    color: white;
+}
+
+.nav-link::after {
+    content: "";
+    opacity: 0;
+    transition: all 0.2s;
+    height: 2px;
+    width: 100%;
+    background-color: var(--primary);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+.nav-link:hover::after {
+    opacity: 1;
+}
+
+.navbar-brand {
+    color: var(--primary);
+    font-size: 1.3rem;
+    font-weight: bold;
+    padding-left: 0;
+    text-decoration: none;
+}
+
+.navbar-brand:hover {
+    color: white;
+}
+
+
+.underline {
+    text-decoration: underline; 
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: 3px;
+}
+
+.form-control {
+    border-radius: 0px;
+    background-color: var(--card-background);
+    color: var(--text);
+}
+
+
+.form-control:focus {
+    background-color: var(--card-background);
+    color: var(--text);
+}
+
+::placeholder { 
+    color: var(--text) !important;
+    opacity: 0.5 !important; 
+}
+
+
+#idNavbar {
+    background: var(--card-background);
+}

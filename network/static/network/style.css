@@ -1,0 +1,141 @@
+:root {
+    --text: #ffffff;
+    --background: #0f172a;
+    --primary: #7dd4fcb2;
+    --secondary: #2c2c2c;
+    --accent: #0DCAF0;
+    --card-background: #1e293b;
+}
+
+@keyframes hide {
+    0% {
+        opacity: 1;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+    75% {
+        opacity: 0;
+        padding: 20px;
+        margin-bottom: 20px;
+        
+    }
+    100%{
+        opacity: 0;
+        height: 0px;
+        line-height: 0px;
+        padding: 0px;
+        margin-bottom: 0px;
+    }
+}
+
+hr {
+    border: 1px solid var(--primary);
+    border-radius: 5px;
+    margin: 0.2%;
+}
+
+a {
+    text-decoration: none;
+}
+
+.form-label {
+    color: var(--text);
+}
+
+.card {
+    background-color: var(--card-background);
+    color: var(--text);
+}
+
+.card-subtitle {
+    font-size: small;
+    opacity: 0.5;
+}
+
+.status {
+    border: 1px solid rgba(92, 92, 92, 0.185)
+}
+
+
+.tweet-row{
+    border-bottom: 1px solid var(--primary);
+    border-radius: 1px;
+}
+
+.tweet-row-top{
+    border-top: 1px solid var(--primary);
+    border-radius: 1px;
+}
+
+.like {
+    color: rgba(255, 255, 255, 0.377);
+    /* padding-right: 10px; */
+    margin-left: 0px;
+}
+
+.like:hover {
+    color: red;
+}
+
+.liked {
+    color: red;
+    margin-left: 0px;
+}
+
+.liked:hover {
+    color: rgba(255, 255, 255, 0.377);
+}
+
+.likes-count {
+    position: relative; 
+    right: 7px; 
+    bottom: 1.5px;
+    color: rgba(255, 255, 255, 0.377);
+    font-size: 15px;
+}
+
+.likes-count-guest {
+    position: relative; 
+    right: 4px; 
+    top: 1px;
+    color: rgba(255, 255, 255, 0.377);
+    font-size: 15px;
+}
+
+.comment {
+    color: rgba(255, 255, 255, 0.377);
+}
+
+.comment:hover {
+    color: var(--accent);
+}
+
+.comments-count {
+    position: relative; 
+    color: rgba(255, 255, 255, 0.377);
+    font-size: 15px;
+}
+
+.alert {
+    background-color: var(--card-background); 
+    border: 0.7px solid white;
+}
+
+.submit-icon {
+    background-color: transparent; 
+    border: 1px solid transparent;
+}
+
+.comment-as {
+    font-size: small;
+}
+
+.comment-as span {
+    color: var(--accent);
+}
+
+.hr-style{
+    border: 1px solid var(--text);
+    padding: 0%;
+    margin: 0px;
+}

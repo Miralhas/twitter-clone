@@ -1,0 +1,86 @@
+:root {
+    --text: #ffffff;
+    --background: #0f172a;
+    --primary: #7dd4fcb2;
+    --secondary: #2c2c2c;
+    --accent: #0DCAF0;
+    --card-background: #1e293b;
+}
+
+.errorlist{
+    padding: 0px;
+    padding-left: 20px;
+    margin: 0px;
+}
+
+.form-label {
+    color: var(--text);
+}
+
+.form-title {
+    background-color: var(--primary);
+}
+
+.alert {
+    background-color: #212121; 
+    border: 0.7px solid white;
+}
+
+.card {
+    background-color: var(--card-background);
+}
+
+.profile-card {
+    color: white;
+    /* font-weight: bold; */
+}
+.profile-span {
+    color: var(--accent);
+    font-weight: bold;
+}
+
+.card-title {
+    color: var(--text);
+}
+
+.card-author {
+    color: var(--accent);
+}
+
+.card-date {
+    color: var(--text);
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    font-weight: bolder;
+}
+
+.tweets-wrapper {
+    background-color: var(--card-background);
+}
+
+.unfollow-btn:hover {
+    border: 1px solid red;
+    background-color: transparent;
+    color: white;
+}
+
+.follow-btn:hover {
+    border: 1px solid green;
+    background-color: transparent;
+    color: white;
+}
+
+.modal-content {
+    background-color: var(--card-background);
+}
+
+.followingUsers {
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--text);
+}
+
+.followingUsers:hover {
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+}

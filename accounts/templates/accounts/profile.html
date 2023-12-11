@@ -1,0 +1,336 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'accounts/style.css' %}">
+    <link rel="stylesheet" href="{% static 'network/style.css' %}">
+{% endblock style %}
+
+{% block head_script %}
+    <script>
+        const requestUserPK = "{{user.pk}}";
+    </script>
+{% endblock head_script %}
+
+{% block title %} Profile {% endblock title %}
+
+{% block content %}
+    <div class="container sans-serif p-4">
+        <div class="row justify-content-center">
+            {% if username %}
+                <div class="col-sm-12 col-lg-8 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-3 mb-2">
+                                    <img src="https://i.stack.imgur.com/l60Hf.png" class="img-fluid img-thumbnail" alt="">
+                                </div>
+                                <div class="col-8 d-flex">
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="pb">
+                                                <h5 class="card-title">@<span class="underline">{{username.username}}</span>
+                                                </h5>
+                                                <a href="" style="text-decoration: none; color: white;">
+                                                    <h6 class="card-subtitle mb-2">Profile page</h6>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col d-flex align-items-end pb-2">
+                                                <div>
+                                                    <small style="color: #71767B;">Joined: {{user.date_joined|date:'DATE_FORMAT'}}</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row justify-content-center">
+                                <div class="status col-4">
+                                    <div class="row">
+                                        <span style="font-weight: lighter; opacity: 0.65;">Tweets</span>
+                                    </div>
+                                    <div class="row">
+                                        <strong class="profile-tweets">{{username.tweets.count}}</strong>
+                                    </div>
+                                </div>
+                                <div class="status col-4">
+                                    <div class="row">
+                                        <div class="modal fade" id="followingModal" tabindex="-1" aria-labelledby="followingModalLabel"
+                                            aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header tweet-row">
+                                                        <h1 class="modal-title text-info fs-5" id="followingModalLabel">Following</h1>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        {% for account in username.following.all %}
+                                                            <div class="card" style="border: none;">
+                                                                <div class="card-body">
+                                                                    <a href="{{account.following_user.get_absolute_path}}" style="text-decoration: none; color: white;" id="tweetAnchor-{{tweet.pk}}">
+                                                                        <div class="row">
+                                                                            <div class="col-2 align-self-center">
+                                                                                <img src="https://i.stack.imgur.com/l60Hf.png" class="img-fluid img-thumbnail" alt="">
+                                                                            </div>
+                                                                            <div class="col">
+                                                                                <div class="d-flex justify-content-start">
+                                                                                    <strong class="card-author">{{account.following_user.username}}</strong>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                            <hr>
+                                                        {% endfor %}
+                                                        <div class="d-flex justify-content-end">
+                                                            <button type="button" class="btn btn-outline-info mt-2" style="border-radius: 0%;" data-bs-dismiss="modal">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <a class="followingUsers" style="font-weight: lighter; opacity: 0.65;" data-bs-toggle="modal" data-bs-target="#followingModal">Follwing</a>
+                                    </div>
+                                    <div class="row">
+                                        <strong>{{username.following.count}}</strong>
+                                    </div>
+                                </div>
+                                <div class="status col-4">
+                                    <div class="row">
+                                        <div class="modal fade" id="followerModal" tabindex="-1" aria-labelledby="followerModalLabel"
+                                            aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header tweet-row">
+                                                        <h1 class="modal-title text-info fs-5" id="followerModalLabel">Followers</h1>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        {% for account in username.followers.all %}
+                                                            <div class="card" style="border: none;">
+                                                                <div class="card-body">
+                                                                    <a href="{{account.user.get_absolute_path}}" style="text-decoration: none; color: white;" id="tweetAnchor-{{tweet.pk}}">
+                                                                        <div class="row">
+                                                                            <div class="col-2 align-self-center">
+                                                                                <img src="https://i.stack.imgur.com/l60Hf.png" class="img-fluid img-thumbnail" alt="">
+                                                                            </div>
+                                                                            <div class="col">
+                                                                                <div class="d-flex justify-content-start">
+                                                                                    <strong class="card-author">{{account.user.username}}</strong>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                            <hr>
+                                                        {% endfor %}
+                                                        <div class="d-flex justify-content-end">
+                                                            <button type="button" class="btn btn-outline-info mt-2" style="border-radius: 0%;" data-bs-dismiss="modal">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <a class="followingUsers" style="font-weight: lighter; opacity: 0.65;" data-bs-toggle="modal" data-bs-target="#followerModal">Followers</a>
+                                    </div>
+                                    <div class="row">
+                                        <strong class="profile-followers">{{username.followers.count}}</strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-2">
+                                {% if user.is_authenticated %}
+                                    {% if username != user %}
+                                        <form action="" method="post" id="followForm">
+                                                {% csrf_token %}
+                                                <input type="hidden" class="request_user" value="{{user.pk}}">
+                                                <input type="hidden" class="user_profile" value="{{username.pk}}">
+                                            {% if request_user_follows %}
+                                                <input type="hidden" class="follow-status" value="unfollow">
+                                                <button class="follow-feature unfollow-btn btn btn-outline-info btn-sm" value="unfollow"
+                                                    type="submit">
+                                                    <span style="font-weight: bolder;">Unfollow &rarr;</span>
+                                                </button>
+                                            {% else %}
+                                                <input type="hidden" class="follow-status" value="follow">
+                                                <button class="follow-feature follow-btn btn btn-outline-info btn-sm" value="follow"
+                                                    type="submit">
+                                                    <span style="font-weight: bolder;">Follow &rarr;</span>
+                                                </button>
+                                            {% endif %}
+                                        </form>
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row"></div>
+                <div class="col-lg-8">
+                    <h2 class="text-center">Tweets:</h2>
+                    {% for tweet in page_obj %}
+                        <div class="card mb-4 px-3" id="tweetCard-{{tweet.pk}}">
+                            <div class="card-body">
+                                <a href="{{tweet.get_absolute_path}}" style="text-decoration: none; color: white;"
+                                    id="tweetAnchor-{{tweet.pk}}">
+                                    <div class="row py-2">
+                                        <div class="col-3 col-lg-1 col-md-2 align-self-center">
+                                            <img src="https://i.stack.imgur.com/l60Hf.png" class="img-fluid img-thumbnail" alt="">
+                                        </div>
+                                        <div class="col">
+                                            <div class="d-flex justify-content-between">
+                                                <strong class="card-author">{{tweet.user.username}}</strong>
+                                                <small class="card-date">{{tweet.date}}</small>
+                                            </div>
+                                            <form action="" id="newContentForm-{{tweet.pk}}">
+                                                <div class="editTweetDiv-{{tweet.pk}}">
+                                                    <p class="tweetContent-{{tweet.pk}} card-text">{{tweet.content}}</p>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </a>
+                                <div class="row tweet-row">
+                                    <div class="d-flex col px-0 pb-1">
+                                        <form action="." method="post" class="likeForm" id="{{forloop.counter}}">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="tweetID" value="{{tweet.pk}}"
+                                                id="tweetID-{{forloop.counter}}">
+                                            <input type="hidden" name="userLiking" value="{{user.pk}}"
+                                                id="userLiking-{{forloop.counter}}">
+                                            {% if not user.is_authenticated %}
+                                            <a href="{% url 'auth:login' %}"
+                                                style="position: relative; top: 2px; padding-right: 3px; padding-left: 4px;"><i
+                                                    class="like bi bi-heart"></i></a>
+                                            <span class="likes-count-guest"
+                                                id="likes-count-{{tweet.pk}}">{{tweet.likes.count}}</span>
+                                            {% else %}
+                                            {% if tweet in user.tweets_liked.all %}
+                                            <button class="submit-icon" type="submit" id="btn-{{forloop.counter}}" value="unlike">
+                                                <i class="liked bi bi-heart-fill"></i>
+                                            </button>
+                                            {% else %}
+                                            <button class="submit-icon" type="submit" id="btn-{{forloop.counter}}" value="like">
+                                                <i class="like bi bi-heart"></i>
+                                            </button>
+                                            {% endif %}
+                                            <span class="likes-count"
+                                                id="likes-count-{{forloop.counter}}">{{tweet.likes.count}}</span>
+                                            {% endif %}
+                                        </form>
+                                        <a class="submit-icon" href="{{tweet.get_absolute_path}}">
+                                            <i class="comment bi bi-chat" style="position: relative; bottom: 1px;"></i>
+                                            <span class="comments-count">{{tweet.comments.count}}</span>
+                                        </a>
+                                    </div>
+                                    {% if username == user %}
+                                        <div class="col d-flex justify-content-end gap-2">
+                                            <div>
+                                                <div class="modal fade" id="editTweetModal-{{tweet.pk}}" tabindex="-1"
+                                                    aria-labelledby="editTweetModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header tweet-row">
+                                                                <h1 class="modal-title text-info fs-5" id="editTweetModalLabel">Edit
+                                                                    your tweet.</h1>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                    aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <form action="" method="post" class="editForm" id="{{tweet.pk}}">
+                                                                    {% csrf_token %}
+                                                                    <input type="hidden" id="tweetOwnerPK-{{tweet.pk}}" value="{{user.pk}}">
+                                                                    <textarea id="editTextarea-{{tweet.pk}}" cols="30" rows="3" class="form-input border border-info form-control mb-3" minlength="1" required>{{tweet.content}}</textarea>
+                                                                    <div class="d-flex justify-content-end">
+                                                                        <button type="submit" class="btn btn-outline-info" id="submitEditBtn" value="{{tweet.pk}}" style="border-radius: 0%;" data-bs-dismiss="modal">Edit Tweet</button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <button class="btn btn-outline-primary btn-sm py-0" style="border-radius: 0px; min-width: 57.92px;" data-bs-toggle="modal" data-bs-target="#editTweetModal-{{tweet.pk}}">Edit</button>
+                                            </div>
+                                            <form action="" method="post" class="editTweetForm" id="{{tweet.pk}}">
+                                                {% csrf_token %}
+                                                <input type="hidden" id="path-{{tweet.pk}}" name="path" value="{{request.path}}">
+                                                <button class="btn btn-outline-danger btn-sm py-0" style="border-radius: 0px;">Delete</button>
+                                            </form>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <div class="row justify-content-center">
+                            <div class="col-5">
+                                <h3 class="text-center mt-5">This account don't have any tweets yet...</h3>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                {% if page_obj.number > 1 %}
+                    <div class="d-flex justify-content-center">
+                        <nav aria-label="Page navigation example" class="mt-1" data-bs-theme="dark">
+                            <ul class="pagination pagination-sm mb-0">
+                                {% if page_obj.has_previous %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                        
+                                {% for page_number in page_obj.paginator.page_range %}
+                                    {% if page_number == page_obj.number %}
+                                        <li class="page-item active"><a class="page-link text-info" href="?page={{page_number}}">{{page_number}}</a></li>
+                                    {% else %}
+                                        <li class="page-item"><a class="page-link text-info" href="?page={{page_number}}">{{page_number}}</a></li>
+                                    {% endif %}
+                                {% endfor %}
+                        
+                                {% if page_obj.has_next %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item">
+                                        <a class="page-link disabled" href="" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                    </div>
+                {% endif %}
+            {% else %}
+                <div class="mb-5 mt-2">
+                    <h2 class="text-center">@<span class="underline">{{user_requested}}</span></h2>
+                </div>
+                <h3 class="text-center mt-5">This account doesn't exist</h3>
+                <p class="text-center">Try searching for another.</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock content %}
+
+{% block script %}
+    <script src="{% static 'script.js' %}"></script>
+    <script src="{% static 'editTweet.js' %}"></script>
+    <script src="{% static 'accounts/followFeature.js' %}"></script>
+    <script src="{% static 'accounts/tweetAction.js' %}"></script>
+{% endblock script %}

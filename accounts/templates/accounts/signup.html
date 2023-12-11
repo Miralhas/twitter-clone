@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block style %} 
+    <link rel="stylesheet" href="{% static 'accounts/style.css' %}"> 
+{% endblock style %}
+
+{% block title %} Sign Up {% endblock title %}
+
+{% block content %}
+    <div class="container-fluid mono">
+        <div class="row justify-content-center pt-3 mt-3">
+            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-8">
+                <h1 class="text-center mb-3">Sign Up</h1>
+                {% if form.errors %}
+                    <div class="d-flex alert alert-light border border-danger justify-content-center" role="alert">
+                        {% for error in form.errors.values %}
+                            <strong style="color: white;">{{error}}</strong>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <div class="">
+                    <div class="form-title d-flex justify-content-center p-2">
+                        <h1 style="font-size: 30px; font-weight: bolder; padding-top: 5px;"> Network </h1>
+                    </div>
+                    <div class="p-3" style="background-color: #212121;">
+                        <form action="." method="post">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="{{ form.email.id_for_label }}" class="form-label">{{ form.email.label }}</label>
+                                {% render_field form.email class+="form-input border border-info form-control mb-2" placeholder="email@email.com" %}
+                            </div>
+                            <div class="form-group">
+                                <label for="{{ form.username.id_for_label }}" class="form-label">{{ form.username.label}}</label>
+                                {% render_field form.username|attr:"autofocus" class+="form-input border border-info form-control mb-2" %}
+                            </div>
+        
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="{{ form.password1.id_for_label }}" class="form-label">{{ form.password1.label }}</label>
+                                        {% render_field form.password1 class+="form-input border border-info form-control mb-2"%}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="{{ form.password2.id_for_label }}" class="form-label">{{ form.password2.label }}</label>
+                                        {% render_field form.password2 class+="form-input border border-info form-control mb-2" %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-center">
+                                <button type="submit" class="btn btn-outline-info mt-3">Sign Up </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
